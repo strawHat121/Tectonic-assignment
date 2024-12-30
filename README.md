@@ -1,50 +1,46 @@
-# React + TypeScript + Vite
+# Lookbook Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Fashion e-commerce platforms often encourages their customers to share their experiences with products by posting there images and videos of them wearing one or more of their products. Platforms also pay celebrities to pose videos and images of them wearing one or more products.
 
-Currently, two official plugins are available:
+A look is an entity which may have a set of images, videos etc. showcasing one or more of products posted by someone. It can have one or more images, videos and associated set of products. If the look has images, each image also have annotation shown by dots pointing out different products in that look. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A Lookbook is a way to showcase looks to a user. It typically has following features:
 
-## Expanding the ESLint configuration
+## Features of Lookbook
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. **Preview of Available Media**
+   - Images and videos within a look are displayed for preview.
 
-- Configure the top-level `parserOptions` property like this:
+2. **Image Preview with Timer**
+   - Each image is displayed with a timer/progress bar that completes in 5 seconds.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+3. **Video Preview**
+   - Videos are played until completion.
+   - Users can mute or unmute videos using a toggle button.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+4. **Navigation**
+   - Users can swipe up/down to navigate to the previous/next look.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+5. **Annotations and Legends**
+   - Images include annotations/legends to highlight specific products in a look.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+6. **Shop Feature**
+   - Clicking on "Shop" for a product redirects the user to the Product Detail Page.
+
+## Deployed URL
+
+
+## Installation and Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/strawHat121/Tectonic-assignment
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
