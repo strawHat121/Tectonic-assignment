@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import MediaViewer from "./MediaViewer";
 import { Look } from "../../types/types";
@@ -9,72 +9,47 @@ interface LookbookProps {
 
 const Lookbook: React.FC<LookbookProps> = ({ looks }) => {
     const [currentLookIndex, setCurrentLookIndex] = useState(0);
-    const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
-    const isScrolling = useRef(false); // To prevent skipping multiple items per scroll
 
-    const currentLook = looks[currentLookIndex];
-    const currentMedia = currentLook.media[currentMediaIndex];
-
-    const goToNextMedia = () => {
-        if (currentMediaIndex < currentLook.media.length - 1) {
-            setCurrentMediaIndex(currentMediaIndex + 1);
-        } else if (currentLookIndex < looks.length - 1) {
+    const goToNextLook = () => {
+        if (currentLookIndex < looks.length - 1) {
             setCurrentLookIndex(currentLookIndex + 1);
-            setCurrentMediaIndex(0);
         }
     };
 
-    const goToPrevMedia = () => {
-        if (currentMediaIndex > 0) {
-            setCurrentMediaIndex(currentMediaIndex - 1);
-        } else if (currentLookIndex > 0) {
+    const goToPrevLook = () => {
+        if (currentLookIndex > 0) {
             setCurrentLookIndex(currentLookIndex - 1);
-            setCurrentMediaIndex(looks[currentLookIndex - 1].media.length - 1);
         }
     };
-
-    const handleScroll = (e: WheelEvent) => {
-        if (isScrolling.current) return; // Prevent additional scroll actions during debounce
-        isScrolling.current = true;
-
-        const delta = e.deltaY;
-        if (delta > 0) {
-            goToNextMedia();
-        } else if (delta < 0) {
-            goToPrevMedia();
-        }
-
-        // Reset the scrolling state after a delay
-        setTimeout(() => {
-            isScrolling.current = false;
-        }, 500); // Adjust delay as needed
-    };
-
-    useEffect(() => {
-        const handleScrollEvent = (e: WheelEvent) => {
-            e.preventDefault(); // Prevent default scrolling
-            handleScroll(e);
-        };
-
-        window.addEventListener("wheel", handleScrollEvent, { passive: false });
-
-        return () => {
-            window.removeEventListener("wheel", handleScrollEvent);
-        };
-    }, [currentMediaIndex, currentLookIndex]);
 
     const swipeHandlers = useSwipeable({
-        onSwipedUp: () => goToNextMedia(),
-        onSwipedDown: () => goToPrevMedia(),
+        onSwipedUp: goToNextLook,
+        onSwipedDown: goToPrevLook,
+        trackMouse: true, // Enables mouse-based swipe gestures
     });
 
     return (
         <div {...swipeHandlers} className="lookbook">
-            <MediaViewer
-                media={currentMedia}
-                products={currentMedia.products || []}
-                onMediaComplete={goToNextMedia}
-            />
+            <div className="lookbook-scroll-container">
+                {looks.map((look, index) => (
+                    <div
+                        key={index}
+                        className="media-item"
+                        style={{
+                            display: currentLookIndex === index ? "block" : "none",
+                        }}
+                    >
+                        {look.media.map((media, idx) => (
+                            <MediaViewer
+                                key={idx}
+                                media={media}
+                                products={media.products || []}
+                                onMediaComplete={goToNextLook}
+                            />
+                        ))}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
