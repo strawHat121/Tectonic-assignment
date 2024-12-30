@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useSwipeable } from "react-swipeable";
 import MediaViewer from "./MediaViewer";
 import { Look } from "../../types/types";
 
@@ -62,8 +63,13 @@ const Lookbook: React.FC<LookbookProps> = ({ looks }) => {
         };
     }, [currentMediaIndex, currentLookIndex]);
 
+    const swipeHandlers = useSwipeable({
+        onSwipedUp: () => goToNextMedia(),
+        onSwipedDown: () => goToPrevMedia(),
+    });
+
     return (
-        <div className="lookbook">
+        <div {...swipeHandlers} className="lookbook">
             <MediaViewer
                 media={currentMedia}
                 products={currentMedia.products || []}
