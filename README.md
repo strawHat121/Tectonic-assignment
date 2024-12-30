@@ -29,6 +29,8 @@ A Lookbook is a way to showcase looks to a user. It typically has following feat
 
 ## Deployed URL
 
+https://tectonic-assignment-opal.vercel.app/
+
 
 ## Installation and Setup
 
